@@ -30,10 +30,23 @@ print(type(raw)) # Print
 file_path = 'latest_pred_data_file.csv'
 
 # Save API response as CSV
-with open(file_path, "w", newline="") as file:
-    file.write(raw.text)
+with open(file_path, "w", newline="") as csv_file:
+    csv_file.write(raw.text)
 
-print(f"\nResponse saved to {file_path}")
+print(f"\nResponse saved to {csv_file}")
+
+
+with open(file_path, "r") as csv_file:
+    reader = csv.reader(csv_file)
+    last_data = None
+    for row in reader:  # Iterate to the last row
+        last_data = row
+    if last_data:
+        print("\nLast row in CSV file:", last_data)
+    else:
+        print("\nCSV file is empty.")
+
+
 
 # ### Update Orientation Every 5 Minutes
 # while True:
