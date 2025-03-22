@@ -30,7 +30,7 @@ def getYawPitchRoll():
     # print("raw data type:")
     # print(type(raw)) # Print
 
-    file_path = 'latest_pred_data_file.csv'
+    file_path = 'predatorUAV_CSV/latest_pred_data_file.csv'
 
     # Save API response as CSV
     with open(file_path, "w", newline="") as csv_file:
