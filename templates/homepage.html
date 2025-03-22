@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="icon" href="{{ url_for('static', filename='lemon_icon.ico') }}"/>
         <title>l'équipe du citrons' website!</title>
     </head>
     <body>
@@ -20,5 +21,9 @@
                 <source src="{{ url_for('static', filename='youtube_flsdI6Q7Mpw_640x360_h264.mp4') }}" type="video/mp4">
             </video>
         </div>
+        <div id="model-path" data-path="{{ url_for('static', filename='models/jet.glb') }}"></div>
+        
+        <script src="{{ url_for('static', filename='js/viewer.js') }}"></script>
+
     </body>
 </html>
