@@ -1,5 +1,7 @@
+## Code that uses the OSH API for Predator UAV to gather and sort data 
+## Into separate .csv files
+
 import requests
-import pandas
 
 predatorUAV = 'https://api.georobotix.io/ogc/t18/api/systems/b2rju765gua3c/datastreams/' #URL of the different datastreams for the predator UAV. 
 
@@ -65,19 +67,19 @@ for key in SLODict:
             SLOAlt.append((item["result"]["location"]['alt']))
             
 ## Creating CSV files with the sorted data for each of the sensors!
-with open('PlanformAttitude.csv', 'w') as w:
+with open('PredatorUAV_CSV/PlanformAttitude.csv', 'w') as w:
     for i in range(len(PAOTimestamp)):
         if i == 0:
              w.write("Timestamp, Heading, Pitch, Roll\n")
         w.write(f"{PAOTimestamp[i]}, {PAOHeading[i]}, {PAOPitch[i]}, {PAORoll[i]}\n")
         
-with open('GimballAttitude.csv', 'w') as w:
+with open('PredatorUAV_CSV/GimballAttitude.csv', 'w') as w:
      for i in range(len(GAOtimestamp)):
          if i == 0:
               w.write("Timestamp, Heading, Pitch, Roll\n")
          w.write(f"{GAOtimestamp[i]}, {GAOHeading[i]}, {GAOPitch[i]}, {GAORoll[i]}\n")   
     
-with open('SensorLocation.csv', 'w') as w:
+with open('PredatorUAV_CSV/SensorLocation.csv', 'w') as w:
     for i in range(len(SLOtimestamp)):
         if i == 0:
              w.write("Timestamp, Lattitude, Longitude, Altitude\n")
