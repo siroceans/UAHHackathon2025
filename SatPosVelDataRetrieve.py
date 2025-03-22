@@ -113,5 +113,5 @@ def getSatVel():
     #     print("Executing code...")
     #     # Replace this with your actual code
     #     time.sleep(300)  # 5 minutes * 60 seconds
-print(getSatPos())
-print(getSatVel())
+#print(getSatPos())
+#print(getSatVel())
