@@ -31,7 +31,7 @@ def getSatPos():
     # print("raw data type:")
     # print(type(raw)) # Print
 
-    file_path = 'latest_SPOT6_data_file.csv'
+    file_path = 'SPOT6_CSV/latest_SPOT6_data_file.csv'
 
     # Save API response as CSV
     with open(file_path, "w", newline="") as csv_file:
