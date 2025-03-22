@@ -3,6 +3,8 @@ import json
 import csv
 import time
 
+# [yawPitchRoll, timeStamp]=getYawPitchRoll()
+
 def getYawPitchRoll():
     ### Querry a specific time stamp
     DATASTREAM_ID = "mlme3gtdfepvc"
@@ -51,7 +53,7 @@ def getYawPitchRoll():
     current_orientation = [float(last_data[1]), float(last_data[2]), float(last_data[3])]
 
     #print(current_orientation)
-    return(current_orientation)
+    return current_orientation,current_time
     # ### Update Orientation Every 5 Minutes
     # while True:
     #     # Code to be executed every 5 minutes
