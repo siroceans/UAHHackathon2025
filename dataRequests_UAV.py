@@ -3,6 +3,7 @@
 
 import requests
 import numpy as np
+import pandas
 
 predatorUAV = 'https://api.georobotix.io/ogc/t18/api/systems/b2rju765gua3c/datastreams/' #URL of the different datastreams for the predator UAV. 
 
@@ -33,6 +34,9 @@ for key in PAODict:
 PAList = [PAOHeading, PAOPitch, PAORoll]
 
 ## Sorting Gimball Attitude Data into Lists
+# This is relative to the body reference frame of the UAV, so we will use this 
+# instead of the platform attutude sensor in the following calculations!
+# All angles in Degrees
 GAODict = GAObservations.json()
 GAOtimestamp = []
 GAOHeading = []
