@@ -46,7 +46,10 @@ with open(file_path, "r") as csv_file:
     else:
         print("\nCSV file is empty.")
 
+current_time = last_data[0]
+current_orientation = [float(last_data[1]), float(last_data[2]), float(last_data[3])]
 
+print(current_orientation)
 
 # ### Update Orientation Every 5 Minutes
 # while True:
