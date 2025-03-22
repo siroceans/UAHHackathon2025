@@ -3,10 +3,21 @@ html {
     font-size: 17px;
 }
 
+
 body {
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
+    background-color: yellow;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* vertically center */
+    align-items: center;     /* horizontally center */
+    height: 100vh;           /* take full screen height */
+    text-align: center;      /* center text inside elements like h1 */
 }
 
 .form__fieldset {
@@ -34,7 +45,6 @@ body {
     background-color: unset;
     border: 2px solid #1c2023;
     border-radius: 4px;
-    float: right;
     cursor: pointer;
 }
 .form__submit:hover {
