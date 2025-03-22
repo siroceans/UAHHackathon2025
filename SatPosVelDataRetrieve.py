@@ -3,6 +3,9 @@ import json
 import csv
 import time
 
+# [posVector, timeStamp]=getSatPos()
+# [velVector, timeStamp]=getSatVel()
+
 def getSatPos():
     ### Querry a specific time stamp
     DATASTREAM_ID = "ceuaig4rlf746"
@@ -51,7 +54,7 @@ def getSatPos():
     current_pos = [float(last_data[1]), float(last_data[2]), float(last_data[3])]
 
     #print(current_orientation)
-    return(current_pos)
+    return current_pos, current_time
     # ### Update Orientation Every 5 Minutes
     # while True:
     #     # Code to be executed every 5 minutes
@@ -106,12 +109,13 @@ def getSatVel():
     current_vel = [float(last_data[1]), float(last_data[2]), float(last_data[3])]
 
     #print(current_orientation)
-    return(current_vel)
+    return current_vel,current_time
     # ### Update Orientation Every 5 Minutes
     # while True:
     #     # Code to be executed every 5 minutes
     #     print("Executing code...")
     #     # Replace this with your actual code
     #     time.sleep(300)  # 5 minutes * 60 seconds
+
 #print(getSatPos())
 #print(getSatVel())
