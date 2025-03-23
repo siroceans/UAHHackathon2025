@@ -33,3 +33,11 @@
         <script type='module' src="{{ url_for('static', filename='js/viewer.js') }}"></script>
     </body>
 </html>
+
+self.gif_label = QLabel(self.tab1)
+
+self.movie = QMovie("media/uav.gif")  # Use the correct path to your gif
+        self.gif_label.setMovie(self.movie)
+
+        self.movie.start()
+        self.gif_label.setGeometry(50, 150, 200, 200)

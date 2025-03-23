@@ -3,16 +3,16 @@ import imageio.v2 as imageio
 import numpy as np
 import pandas as pd
 from UAVOrientationDataRetrieve import getYawPitchRoll
-def UAV_mapper():
+def UAV_mapper(filename):
 #load in data
-    data = pd.read_csv('PlanformAttitude.csv')
+    data = pd.read_csv('./predatorUAV_CSV/PlanformAttitude.csv')
 
     time = np.array(data.iloc[:,0])
     yaw = np.array(data.iloc[:,1])
     pitch = np.array(data.iloc[:,2])
     roll = np.array(data.iloc[:,3])
     plotter = pv.Plotter(off_screen=True)
-
+    plotter.background_color = (0,0,0,0)
 
     #load in the model
     mesh = pv.read('Untitled.stl')
@@ -37,7 +37,6 @@ def UAV_mapper():
         pic_frame.append(frame)
 
     #Generate GIF
-    imageio.mimsave("UAV_Rotation.gif", pic_frame, duration=0.00001, loop = 0)  # Adjust speed with duration
-    print("GIF saved as UAV_Rotation.gif!")
+    imageio.mimsave(f"./gifs/{filename}.gif", pic_frame, duration=0.00001, loop = 0)  # Adjust speed with duration
+    print(f"GIF saved as {filename}.gif!")
     return None
-UAV_mapper()
