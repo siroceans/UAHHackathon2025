@@ -10,8 +10,13 @@ from matplotlib.figure import Figure
 #from (jorges script) import (function)
 from plane import UAV_mapper
 from pyvistaqt import QtInteractor
-from orbit import orbitPlotting
 import SatPosVelDataRetrieve as data
+import pyvista as pv
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton
+from orbit import orbitPlotting, futurePosition
+from pyvistaqt import QtInteractor
+from PyQt5.QtWidgets import QDoubleSpinBox
+
 
 # Colors
 black = QColor(0, 0, 0)      # a dark greyish black
@@ -138,30 +143,74 @@ class MyTableWidget(QWidget):
         self.update_layout_tab2()
 
     def init_tab3(self):
+    
         self.tab3 = QWidget()
         self.tab3.setObjectName("tab3")
     
-        layout = QVBoxLayout()
-        self.tab3.setLayout(layout)
+        # Layout setup
+        main_layout = QHBoxLayout()
+        self.tab3.setLayout(main_layout)
     
-        plot_widget = QtInteractor(self.tab3)
-        layout.addWidget(plot_widget)
-    
-
-        from orbit import orbitPlotting
-        # r = [7000, 0, 0]
-        # v = [0, 7.5, 1]
-        r = data.getSatPos()
-        v = data.getSatVel()
-        plotter = orbitPlotting(r, v)
-    
-        plot_widget.set_background(plotter.background_color)
-    
+        # Left: initial orbit
+        self.initial_plot = QtInteractor(self.tab3)
+        self.r = data.getSatPos()
+        self.v = data.getSatVel()
+        plotter = orbitPlotting(self.r, self.v)
+        self.initial_plot.set_background(plotter.background_color)
         for actor in plotter.renderer._actors.values():
-            plot_widget.add_actor(actor)
+            self.initial_plot.add_actor(actor)
+        self.initial_plot.camera_position = plotter.camera_position
+        self.initial_plot.reset_camera()
+        main_layout.addWidget(self.initial_plot)
     
-        plot_widget.camera_position = plotter.camera_position
-        plot_widget.reset_camera()
+        # Right layout (top input + bottom plot)
+        right_layout = QVBoxLayout()
+    
+        # Input
+        label = QLabel("Enter Δt (seconds):")
+        self.dt_input = QDoubleSpinBox()
+        self.dt_input.setRange(1.0, 100000)
+        self.dt_input.setValue(300.0)
+        run_button = QPushButton("Run")
+        right_layout.addWidget(label)
+        right_layout.addWidget(self.dt_input)
+        right_layout.addWidget(run_button)
+    
+        # Bottom: future orbit plot
+        self.future_plot = QtInteractor(self.tab3)
+        right_layout.addWidget(self.future_plot)
+        main_layout.addLayout(right_layout)
+    
+        # Run button logic
+        def run_future_plot():
+            print("RUN CLICKED!")
+        
+            try:
+                dt = self.dt_input.value()
+                print("Parsed dt:", dt)
+                
+                r2, v2 = futurePosition(self.r, self.v, dt)
+                print("r2:", r2)
+                print("v2:", v2)
+        
+                future_plotter = orbitPlotting(r2, v2)
+                print("Future plotter has", len(future_plotter.renderer._actors), "actors")
+        
+                self.future_plot.clear()
+                self.future_plot.set_background(future_plotter.background_color)
+        
+                for actor in future_plotter.renderer._actors.values():
+                    self.future_plot.add_actor(actor)
+        
+                self.future_plot.camera_position = future_plotter.camera_position
+                self.future_plot.reset_camera()
+        
+            except Exception as e:
+                print("Error in future plot:", e)
+                
+                # Bottom: future orbit plot
+        run_button.clicked.connect(run_future_plot)
+
 
 
     def resizeEvent(self, event):
