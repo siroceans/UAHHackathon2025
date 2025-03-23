@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import trimesh
 import pyvista as pv
+import imageio
 
 
 def mag(v):
@@ -142,13 +143,13 @@ def orbitPlotting(r, v):
     satellite = satellite.translate([r[0], r[1], r[2]])
     
     plotter = pv.Plotter()
-    plotter.background_color = "#444241"
+    plotter.background_color = "#000000"
     plotter.add_mesh(earth, texture = earth_texture)
     plotter.add_mesh(satellite , texture = satellite_texture)
     orbit = pv.lines_from_points(np.column_stack([x,y,z]))
     plotter.add_mesh(orbit, color = "white", line_width = 3)
-    plotter.show()
-    
+#    plotter.show()
+    return plotter
     
 def animationPoints(r,v, no):
     mu = 3.986004418 * 10 ** 5
@@ -176,9 +177,48 @@ def animationPoints(r,v, no):
 
     return xlist, ylist, zlist
 
-r = [8750, 5100, 0]
-v = [-3, 5.2, 5.9]
-x, y, z = animationPoints(r,v, 20)
-   
-    
-    
+# def plot_animation(xlist,ylist, zlist, r, v):
+# 
+#     #list to store all the screenshots
+#     plots = []
+#     plotter = pv.Plotter(off_screen=True)
+# 
+#     scale = 10
+#     scale2 = 50
+#     #create earth body
+#     earth = pv.read("objectFiles/earth.obj")
+#     earth_texture = pv.read_texture("objectFiles/earth.jpg")
+#     earth = earth.scale([scale, scale, scale])
+#     #create satellite body
+#     satellite = pv.read("objectFiles/satellite.obj")
+#     satellite = satellite.scale([scale2, scale2, scale2])
+#     satellite_texture = pv.read_texture("objectFiles/satellite.png")
+#     coords = orbitPlotting(r,v)
+# 
+#     #for loop to create plots at each timestep
+#     for x,y,z in zip(xlist,ylist,zlist):
+#         plotter.clear()
+# 
+#         #move the satellite
+#         satellite = satellite.translate([x, y, z])
+#         #create plots
+#         plotter.background_color = "#444241"
+#         plotter.add_mesh(earth, texture=earth_texture)
+#         plotter.add_mesh(satellite, texture=satellite_texture)
+#         orbit = pv.lines_from_points(coords)
+#         plotter.add_mesh(orbit, color="white", line_width=3)
+#         plotter.show(auto_close=False)
+# 
+#         # Gather Frames
+#         plot = plotter.screenshot(return_img=True)
+#         plots.append(plot)
+# 
+#     #create gif
+#     imageio.v2.mimsave('Satellite_animation.gif', plots, duration=0.05, loop=0)
+#     print('Gif saved as Satellite_animation.gif!!')
+# 
+# #call func
+# plot_animation(x,y,z,r,v)
+# 
+# #plot_animation(r_array, v_array)
+#     

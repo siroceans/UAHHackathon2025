@@ -103,7 +103,8 @@ def UAV_mapper(yaw_array, pitch_array, roll_array, file_name):
 
     #Plotting!!
         plotter.clear()
-        plotter.add_mesh(trans_mesh, color='FF8FED', show_edges= True)
+        plotter.set_background("#000000")
+        plotter.add_mesh(trans_mesh, color='3C4047', show_edges = True, edge_color = "white", line_width = 1.5)#, style = "wireframe", line_width = 1.5)
         plotter.show(auto_close=False)
 
 
