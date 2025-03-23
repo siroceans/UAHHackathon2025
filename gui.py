@@ -125,7 +125,7 @@ class MyTableWidget(QWidget):
         # No layout — we’ll position widgets manually
 
         self.gif_label = QLabel(self.tab2)
-        self.movie = QMovie("./gifs/UAV_Rotation.gif")  # Use the correct path to your gif
+        self.movie = QMovie("./gifs/Live_UAV_Rotation.gif")  # Use the correct path to your gif
         self.gif_label.setMovie(self.movie)
         self.movie.start()
 
@@ -250,7 +250,7 @@ class MyTableWidget(QWidget):
 
         x_siz2 = int(width * 0.4)
         y_siz2 = int(height * 0.4)
-        x_center2 = int(width * 0.25)
+        x_center2 = int(width * 0.75)
         y_center2 = int(height * 0.25)
         x_pos2 = x_center2 - (x_siz2 // 2)
         y_pos2 = y_center2 - (y_siz2 // 2)       
