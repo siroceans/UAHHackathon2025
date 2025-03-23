@@ -148,7 +148,7 @@ def orbitPlotting(r, v):
     plotter.add_mesh(satellite , texture = satellite_texture)
     orbit = pv.lines_from_points(np.column_stack([x,y,z]))
     plotter.add_mesh(orbit, color = "white", line_width = 3)
-    plotter.show()
+    #plotter.show()
     return plotter
     
 # def animationPoints(r,v, no):
