@@ -86,10 +86,11 @@ def ten_thousand():
 
     return yaw_array, pitch_array, roll_array
 
-def UAV_mapper(yaw_array, pitch_array, roll_array, file_name):
+def UAV_mapper(yaw_array, pitch_array, roll_array, file_name, texture_file):
 
     #load in the model
     mesh = pv.read(file_name)
+    textures = pv.read_texture(texture_file)
     plotter = pv.Plotter(off_screen=True)
     pic_frame = []
 
@@ -102,7 +103,7 @@ def UAV_mapper(yaw_array, pitch_array, roll_array, file_name):
 
     #Plotting!!
         plotter.clear()
-        plotter.add_mesh(trans_mesh, color='FF8FED', show_edges= True)
+        plotter.add_mesh(trans_mesh, color='FF8FED', show_edges= True, texture=textures )
         plotter.show(auto_close=False)
 
 
@@ -124,6 +125,6 @@ print(pitch_array)
 roll_array = data[2]
 print(roll_array)
 
-UAV_mapper(yaw_array, pitch_array, roll_array, 'Untitled.stl')
+UAV_mapper(yaw_array, pitch_array, roll_array, 'CUPIC_JEt.obj', 'JETSurface_Color.png')
 
 
