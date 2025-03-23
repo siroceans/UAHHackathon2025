@@ -1,6 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLineEdit, QPushButton, QMessageBox, QWidget, QTabWidget, QVBoxLayout, QToolBar
-from PyQt5.QtGui import QFont, QColor
+from PyQt5.QtWidgets import QMainWindow, QApplication, QLineEdit, QPushButton, QMessageBox, QWidget, QTabWidget, QVBoxLayout, QToolBar, QLabel
+from PyQt5.QtGui import QFont, QColor, QMovie
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -19,6 +19,12 @@ class App(QMainWindow):
         super().__init__()
         self.setWindowTitle("Text Box")
         self.setCentralWidget(MyTableWidget(self))
+        self.setStyleSheet("""
+            QMainWindow {
+                background-color: green;
+            }
+        """)
+
         self.showMaximized()
 
 
@@ -30,41 +36,30 @@ class MyTableWidget(QWidget):
         # Tabs setup
         self.tabs = QTabWidget()
         self.tab1 = QWidget()
+        self.tab1.setObjectName("tab1")
         self.tab2 = QWidget()
+        self.tab2.setObjectName("tab2")
         self.tabs.addTab(self.tab1, "UAV Orientation")
         self.tabs.addTab(self.tab2, "Satellite Plots")
 
         self.init_tab1()
         self.init_tab2()
 
-
-
-        self.tabs.setStyleSheet(f"""
-            QTabWidget::pane {{
-                background: {green.name()};
+        self.tabs.setStyleSheet("""
+            QTabWidget::pane {
                 border: none;
-            }}
-
-            QTabBar {{
-                background: {green.name()};
-            }}
-
-            QTabBar::tab {{
-                background: {black.name()};
-                color: {green.name()};
+                background-color: yellow;
+            }
+        
+            QTabBar::tab {
+                background: white;
+                color: black;
                 padding: 10px;
-                border: 1px solid {green.name()};
-                border-top-left-radius: 4px;
-                border-top-right-radius: 4px;
-            }}
-
-            QTabBar::tab:selected {{
-                background: {black.name()};
-            }}
-
-            QWidget {{
-                background: {green.name()};
-            }}
+            }
+        
+            QWidget#tab1, QWidget#tab2 {
+                background-color: yellow;
+            }
         """)
 
 
@@ -76,7 +71,15 @@ class MyTableWidget(QWidget):
     def init_tab1(self):
         # No layout — we’ll position widgets manually
         self.textbox = QLineEdit(self.tab1)
+        
         self.textbox.setAlignment(Qt.AlignCenter)
+        self.gif_label = QLabel(self.tab1)
+
+        self.movie = QMovie("media/uav.gif")  # Use the correct path to your gif
+        self.gif_label.setMovie(self.movie)
+
+        self.movie.start()
+        self.gif_label.setGeometry(50, 150, 200, 200)
         # Initial layout
         self.update_layout_tab1()
 
@@ -122,6 +125,16 @@ class MyTableWidget(QWidget):
 
         self.textbox.resize(x_siz, y_siz)
         self.textbox.move(x_pos, y_pos)
+
+        self.textbox.setStyleSheet(f"""
+            QLineEdit {{
+                color: {black.name()};
+                border: 3px solid {black.name()};
+                border-radius: 12px;
+                padding: 8px;
+            }}
+        """)
+
 
         # Optional: Style
         self.tabs.setStyleSheet(f"""
