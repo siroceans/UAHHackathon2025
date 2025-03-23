@@ -1,11 +1,18 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLineEdit, QPushButton, QMessageBox, QWidget, QTabWidget, QVBoxLayout
-from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QMainWindow, QApplication, QLineEdit, QPushButton, QMessageBox, QWidget, QTabWidget, QVBoxLayout, QToolBar
+from PyQt5.QtGui import QFont, QColor
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 #from (jorges script) import (function)
+#from (ounce) import (funciton)
+
+# Colors
+black = QColor(44, 42, 41)      # a dark greyish black
+green = QColor(50, 205, 50)     # lime green
+
+
 
 class App(QMainWindow):
     def __init__(self):
@@ -30,26 +37,38 @@ class MyTableWidget(QWidget):
         self.init_tab1()
         self.init_tab2()
 
-        self.tabs.setStyleSheet("""
-            QTabWidget::pane {
-                background-color: yellow;
-            }
-            
-            QTabBar::tab {
-                background: white;
-                color: black;
+
+
+        self.tabs.setStyleSheet(f"""
+            QTabWidget::pane {{
+                background: {green.name()};
+                border: none;
+            }}
+
+            QTabBar {{
+                background: {green.name()};
+            }}
+
+            QTabBar::tab {{
+                background: {black.name()};
+                color: {green.name()};
                 padding: 10px;
-                width = 50%;                
-            }
+                border: 1px solid {green.name()};
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+            }}
 
-            QTabBar::tab:selected {
-                background: lightgray;
-            }
+            QTabBar::tab:selected {{
+                background: {black.name()};
+            }}
 
-            QWidget {
-                background-color: yellow;
-            }
+            QWidget {{
+                background: {green.name()};
+            }}
         """)
+
+
+
 
         self.layout.addWidget(self.tabs)
         self.setLayout(self.layout)
@@ -105,22 +124,17 @@ class MyTableWidget(QWidget):
         self.textbox.move(x_pos, y_pos)
 
         # Optional: Style
-        self.textbox.setStyleSheet("""
-            QLineEdit {
-                background-color: white;
-                border: 4px solid black;
-                border-radius: 8px;
-                padding: 5px;
-            }
+        self.tabs.setStyleSheet(f"""
+            QTabWidget::pane {{
+                background-color: {black.name()};
+                border: none;
+            }}
+
+            QTabBar {{
+                background: {black.name()};
+            }} 
         """)
-        #self.button.setStyleSheet("""
-        #    QPushButton {
-        #        background-color: white;
-        #        border: 4px solid black;
-        #        border-radius: 8px;
-        #        padding: 5px;
-        #    }
-        #""")
+
 
     @pyqtSlot()
     def on_click(self):
