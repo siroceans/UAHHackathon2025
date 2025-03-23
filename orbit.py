@@ -72,8 +72,8 @@ def futurePosition(r, v, dt):
     
     r2 = np.array(r2).tolist()
     v2 = np.array(v2).tolist()
-    print("r2 = [{:.4f}, {:.4f}, {:.4f}]".format(r2[0], r2[1], r2[2]))
-    print("v2 = [{:.4f}, {:.4f}, {:.4f}]".format(v2[0], v2[1], v2[2]))
+#    print("r2 = [{:.4f}, {:.4f}, {:.4f}]".format(r2[0], r2[1], r2[2]))
+#    print("v2 = [{:.4f}, {:.4f}, {:.4f}]".format(v2[0], v2[1], v2[2]))
     return r2, v2    
     
 def orbitPlotting(r, v):
@@ -163,9 +163,22 @@ def animationPoints(r,v, no):
     a = hmag ** 2 / (mu * (1 - emag ** 2))
 
     period = 2 * np.pi * np.sqrt(a**3 / mu)
+    timesteps = np.linspace(0, period, no)
     
-    
-    
-    
+    xlist = []
+    ylist = []
+    zlist = []
+    for i in range(len(timesteps)):
+        ri , vi = futurePosition(r, v, timesteps[i])
+        xlist.append(ri[0])
+        ylist.append(ri[1]) 
+        zlist.append(ri[2])
+
+    return xlist, ylist, zlist
+
+r = [8750, 5100, 0]
+v = [-3, 5.2, 5.9]
+x, y, z = animationPoints(r,v, 20)
+   
     
     
