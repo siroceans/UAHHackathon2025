@@ -130,7 +130,7 @@ def orbitPlotting(r, v):
     y = np.transpose(coordinates[1,:])
     z = np.transpose(coordinates[2,:])
     
-    ## Doing all of the plotting!
+    # Doing all of the plotting!
     scale = 10
     scale2 = 50     
     earth = pv.read("objectFiles/earth.obj")
@@ -148,6 +148,21 @@ def orbitPlotting(r, v):
     orbit = pv.lines_from_points(np.column_stack([x,y,z]))
     plotter.add_mesh(orbit, color = "white", line_width = 3)
     plotter.show()
+    
+    
+def animationPoints(r,v, no):
+    mu = 3.986004418 * 10 ** 5
+    r = np.array(r)
+    v = np.array(v)
+    rmag = mag(r)
+    vmag = mag(v)
+    h = np.cross(r,v)
+    hmag = mag(h)
+    e = (1/mu) * ((vmag**2 - mu/rmag) * r - np.dot(r,v) * v)
+    emag = mag(e) 
+    a = hmag ** 2 / (mu * (1 - emag ** 2))
+
+    period = 2 * np.pi * np.sqrt(a**3 / mu)
     
     
     
