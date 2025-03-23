@@ -12,7 +12,7 @@ def UAV_mapper(filename):
     pitch = np.array(data.iloc[:,2])
     roll = np.array(data.iloc[:,3])
     plotter = pv.Plotter(off_screen=True)
-    plotter.background_color = (44,42,41,0)
+    plotter.background_color = (0,0,0,0)
 
     #load in the model
     mesh = pv.read('Untitled.stl')
@@ -40,3 +40,4 @@ def UAV_mapper(filename):
     imageio.mimsave(f"./gifs/{filename}.gif", pic_frame, duration=0.00001, loop = 0)  # Adjust speed with duration
     print(f"GIF saved as {filename}.gif!")
     return None
+UAV_mapper('UAV_Rotation')

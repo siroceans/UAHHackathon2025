@@ -11,7 +11,7 @@ from matplotlib.figure import Figure
 from plane import UAV_mapper
 
 # Colors
-black = QColor(44, 42, 41)      # a dark greyish black
+black = QColor(0, 0, 0)      # a dark greyish black
 green = QColor(50, 205, 50)     # lime green
 
 class App(QMainWindow):
@@ -83,38 +83,36 @@ class MyTableWidget(QWidget):
     def init_tab1(self):
 
         self.button12 = QPushButton("Button 1", self.tab1)
-        self.button12.setGeometry(100, 50, 120, 40)  # x, y, width, height
         self.button12.clicked.connect(lambda: self.tabs.setCurrentIndex(1))
 
 
         self.button13 = QPushButton("Button 2", self.tab1)
-        self.button13.setGeometry(250, 50, 120, 40)
         self.button13.clicked.connect(lambda: self.tabs.setCurrentIndex(2))
 
 
         self.gif_label11 = QLabel(self.tab1)
-        self.movie11 = QMovie("./gifs/UAV_Rotation.gif")  # Use the correct path to your gif
+        self.movie11 = QMovie("./gifs/title.gif")  # Use the correct path to your gif
         self.gif_label11.setMovie(self.movie11)
         self.movie11.start()
         self.gif_label11.setGeometry(1920//2,50,1000,300)
         
 
         self.gif_label12 = QLabel(self.tab1)
-        self.movie12 = QMovie("./gifs/UAV_Rotation.gif")  # Use the correct path to your gif
+        self.movie12 = QMovie("./gifs/jet.gif")  # Use the correct path to your gif
         self.gif_label12.setMovie(self.movie12)
         self.movie12.start()
         self.gif_label12.setGeometry(100, 50, 120, 40)    
 
 
         self.gif_label13 = QLabel(self.tab1)
-        self.movie13 = QMovie("./gifs/UAV_Rotation.gif")  # Use the correct path to your gif
+        self.movie13 = QMovie("./gifs/satellite.gif")  # Use the correct path to your gif
         self.gif_label13.setMovie(self.movie13)
         self.movie13.start()
         self.gif_label13.setGeometry(250, 50, 120, 40)
 
 
         self.gif_label14 = QLabel(self.tab1)
-        self.movie14 = QMovie("./gifs/UAV_Rotation.gif")  # Use the correct path to your gif
+        self.movie14 = QMovie("./gifs/botts.gif")  # Use the correct path to your gif
         self.gif_label14.setMovie(self.movie14)
         self.movie14.start()
         self.gif_label14.setGeometry(250, 50, 120, 40)
@@ -125,14 +123,13 @@ class MyTableWidget(QWidget):
 
     def init_tab2(self):
         # No layout — we’ll position widgets manually
-        self.textbox = QLineEdit(self.tab1)
-        self.textbox.setAlignment(Qt.AlignCenter)
 
         self.gif_label = QLabel(self.tab2)
-
         self.movie = QMovie("./gifs/UAV_Rotation.gif")  # Use the correct path to your gif
         self.gif_label.setMovie(self.movie)
         self.movie.start()
+
+        self.label = QLabel("Our text here", self.tab2)
 
         # Initial layout
         self.update_layout_tab2()
@@ -171,7 +168,7 @@ class MyTableWidget(QWidget):
         width = self.width()
         height = self.height()
 
-        # --------- GIF 11 (Center at 50% width, 25% height) ---------
+        # --------- GIF 11 (Center at 50% width, 15% height) ---------
         x_siz1 = int(width * 0.5)
         y_siz1 = int(height * 0.5)
         x_center1 = int(width * 0.5)
@@ -183,8 +180,8 @@ class MyTableWidget(QWidget):
         self.movie11.setScaledSize(QtCore.QSize(x_siz1, y_siz1))
 
         # --------- GIF 12 ---------
-        x_siz2 = int(width * 0.2)
-        y_siz2 = int(height * 0.2)
+        x_siz2 = int(width * 0.35)
+        y_siz2 = int(height * 0.35)
         x_center2 = int(width * 0.3)
         y_center2 = int(height * 0.6)
         x_pos2 = x_center2 - (x_siz2 // 2)
@@ -204,8 +201,8 @@ class MyTableWidget(QWidget):
         self.button12.raise_()
 
         # --------- GIF 13 ---------
-        x_siz3 = int(width * 0.2)
-        y_siz3 = int(height * 0.2)
+        x_siz3 = int(width * 0.35)
+        y_siz3 = int(height * 0.35)
         x_center3 = int(width * 0.7)
         y_center3 = int(height * 0.6)
         x_pos3 = x_center3 - (x_siz3 // 2)
@@ -225,7 +222,7 @@ class MyTableWidget(QWidget):
         self.button13.raise_()
 
         # --------- GIF 14 (Bottom Right Margin) ---------
-        margin4 = int(width * 0.05)
+        margin4 = int(width * 0.015)
         x_siz4 = int(width * 0.2)
         y_siz4 = int(height * 0.2)
         x_pos4 = width - x_siz4 - margin4
@@ -241,32 +238,45 @@ class MyTableWidget(QWidget):
         height = self.height()
 
         # Position and sizing
-        x_siz = int(width * 0.2)
-        y_siz = int(height * 0.05)
+        x_siz1 = int(width * 0.4)
+        y_siz1 = int(height * 0.4)
+        x_center1 = int(width * 0.25)
+        y_center1 = int(height * 0.25)
+        x_pos1 = x_center1 - (x_siz1 // 2)
+        y_pos1 = y_center1 - (y_siz1 // 2)
 
-        x_pos = int(width*0.7)
-        y_pos = int(height*0.05)
+        self.gif_label11.setGeometry(x_pos1, y_pos1, x_siz1, y_siz1)
+        self.movie11.setScaledSize(QtCore.QSize(x_siz1, y_siz1))
 
-        font_size = int(y_siz * 0.25)
+        x_siz2 = int(width * 0.4)
+        y_siz2 = int(height * 0.4)
+        x_center2 = int(width * 0.25)
+        y_center2 = int(height * 0.25)
+        x_pos2 = x_center2 - (x_siz2 // 2)
+        y_pos2 = y_center2 - (y_siz2 // 2)       
+
+        self.label.setStyleSheet("color: lime; font-size: 18px; background-color: transparent;")
+        self.setGeometry(x_pos2, y_pos2, x_siz2, y_siz2)
+
+
+        font_size = int(y_siz1 * 0.25)
 
         font = QFont("Times", font_size)
 
-        self.textbox.setFont(font)
+        #self.textbox.setFont(font)
 
-        self.textbox.resize(x_siz, y_siz)
-        self.textbox.move(x_pos, y_pos)
+        #self.textbox.resize(x_siz1, y_siz1)
+        #self.textbox.move(x_pos1, y_pos1)
 
         # Optional: Style
-        self.textbox.setStyleSheet("""
-            QLineEdit {
-                background-color: white;
-                border: 4px solid black;
-                border-radius: 8px;
-                padding: 5px;
-            }
-        """)
-
-        self.gif_label.move(-200, int(height*0.1))
+        #self.textbox.setStyleSheet("""
+        #    QLineEdit {
+        #        background-color: white;
+        #        border: 4px solid black;
+        #        border-radius: 8px;
+        #        padding: 5px;
+        #    }
+        #""")
 
         #self.button.setGeometry(int(width * 0.1), int(height * 0.2), 200, 50)
         #self.button.setStyleSheet("""
