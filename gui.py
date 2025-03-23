@@ -125,16 +125,12 @@ class MyTableWidget(QWidget):
 
 
     def init_tab2(self):
-        # No layout — we’ll position widgets manually
-
+        # UAV model GIF
         self.gif_label = QLabel(self.tab2)
-        self.movie = QMovie("./gifs/Live_UAV_Rotation.gif")  # Use the correct path to your gif
+        self.movie = QMovie("./gifs/Live_UAV_Rotation.gif")
         self.gif_label.setMovie(self.movie)
         self.movie.start()
 
-        self.label = QLabel("Our text here", self.tab2)
-
-        # Initial layout
         self.update_layout_tab2()
 
     def init_tab3(self):
@@ -253,53 +249,13 @@ class MyTableWidget(QWidget):
         # Position and sizing
         x_siz1 = int(width * 0.4)
         y_siz1 = int(height * 0.4)
-        x_center1 = int(width * 0.25)
+        x_center1 = int(width * 0.75)
         y_center1 = int(height * 0.25)
         x_pos1 = x_center1 - (x_siz1 // 2)
         y_pos1 = y_center1 - (y_siz1 // 2)
 
         self.gif_label11.setGeometry(x_pos1, y_pos1, x_siz1, y_siz1)
         self.movie11.setScaledSize(QtCore.QSize(x_siz1, y_siz1))
-
-        x_siz2 = int(width * 0.4)
-        y_siz2 = int(height * 0.4)
-        x_center2 = int(width * 0.75)
-        y_center2 = int(height * 0.25)
-        x_pos2 = x_center2 - (x_siz2 // 2)
-        y_pos2 = y_center2 - (y_siz2 // 2)       
-
-        self.label.setStyleSheet("color: lime; font-size: 18px; background-color: transparent;")
-        self.setGeometry(x_pos2, y_pos2, x_siz2, y_siz2)
-
-
-        font_size = int(y_siz1 * 0.25)
-
-        font = QFont("Times", font_size)
-
-        #self.textbox.setFont(font)
-
-        #self.textbox.resize(x_siz1, y_siz1)
-        #self.textbox.move(x_pos1, y_pos1)
-
-        # Optional: Style
-        #self.textbox.setStyleSheet("""
-        #    QLineEdit {
-        #        background-color: white;
-        #        border: 4px solid black;
-        #        border-radius: 8px;
-        #        padding: 5px;
-        #    }
-        #""")
-
-        #self.button.setGeometry(int(width * 0.1), int(height * 0.2), 200, 50)
-        #self.button.setStyleSheet("""
-        #    QPushButton {
-        #        background-color: white;
-        #        border: 4px solid black;
-        #        border-radius: 8px;
-        #        padding: 5px;
-        #    }
-        #""")
 
     def update_layout_tab3(self):
         # Dynamic width and height
