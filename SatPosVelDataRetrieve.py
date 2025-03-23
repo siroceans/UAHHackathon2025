@@ -51,7 +51,7 @@ def getSatPos():
         #     print("\nCSV file is empty.")
 
     current_time = last_data[0]
-    current_pos = [float(last_data[1]), float(last_data[2]), float(last_data[3])]
+    current_pos = [float(last_data[1])* 10 ** (-3), float(last_data[2])* 10 ** (-3), float(last_data[3])* 10 ** (-3)]
 
     #print(current_orientation)
     return current_pos#, current_time
@@ -63,7 +63,7 @@ def getSatPos():
     #     time.sleep(300)  # 5 minutes * 60 seconds
 def getSatVel():
     ### Querry a specific time stamp
-    DATASTREAM_ID = "nrq0hf0h1mofa"
+    DATASTREAM_ID = "u8noeomjdlgl2"
     STANDARD = "swe"
     #STANDARD = "om"
     FORMAT = "csv"
@@ -106,7 +106,7 @@ def getSatVel():
         #     print("\nCSV file is empty.")
 
     current_time = last_data[0]
-    current_vel = [float(last_data[1]), float(last_data[2]), float(last_data[3])]
+    current_vel = [float(last_data[1]) * 10 ** (-3), float(last_data[2])* 10 ** (-3), float(last_data[3])* 10 ** (-3)]
 
     #print(current_orientation)
     return current_vel#,current_time
@@ -117,5 +117,5 @@ def getSatVel():
     #     # Replace this with your actual code
     #     time.sleep(300)  # 5 minutes * 60 seconds
 
-#print(getSatPos())
-#print(getSatVel())
+print(getSatPos())
+print(getSatVel())

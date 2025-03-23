@@ -7,11 +7,10 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-# Mares' imports
+#from (jorges script) import (function)
 from plane import UAV_mapper
-from PyQt5.QtWidgets import QMainWindow, QFrame, QVBoxLayout, QWidget
-from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
-import orbit as orbit
+from pyvistaqt import QtInteractor
+from orbit import orbitPlotting
 import SatPosVelDataRetrieve as data
 
 # Colors
@@ -46,8 +45,8 @@ class MyTableWidget(QWidget):
         self.tab1.setObjectName("tab1")
         self.tab2 = QWidget()
         self.tab2.setObjectName("tab2")
-        self.tab3 = QWidget()
-        self.tab3.setObjectName("tab3")
+        self.init_tab3()
+        self.tabs.addTab(self.tab3, "Satellite Plots")
         self.tabs.addTab(self.tab1, "Home Page")
         self.tabs.addTab(self.tab2, "UAV Orientation")
         self.tabs.addTab(self.tab3, "Satellite Plots")
@@ -129,7 +128,7 @@ class MyTableWidget(QWidget):
         # No layout — we’ll position widgets manually
 
         self.gif_label = QLabel(self.tab2)
-        self.movie = QMovie("./gifs/UAV_Rotation.gif")  # Use the correct path to your gif
+        self.movie = QMovie("./gifs/Live_UAV_Rotation.gif")  # Use the correct path to your gif
         self.gif_label.setMovie(self.movie)
         self.movie.start()
 
@@ -139,30 +138,31 @@ class MyTableWidget(QWidget):
         self.update_layout_tab2()
 
     def init_tab3(self):
-   ## Orbital Dynamics Window!
-        ## Orbital Dynamics Window!
-        
-        # Create the frame (Main container for the plot)
-        self.frame = QFrame(self)  # Use this frame to hold the VTK render window
-        
-        # Create a layout for the frame
-        self.layout = QVBoxLayout(self.frame)  # Set layout for the frame
-        
-        # Create the VTK Widget (Interactor for PyVista)
-        self.vtk_widget = QVTKRenderWindowInteractor(self.frame)
-        
-        # Add the vtk_widget to the layout
-        self.layout.addWidget(self.vtk_widget)
+        self.tab3 = QWidget()
+        self.tab3.setObjectName("tab3")
+    
+        layout = QVBoxLayout()
+        self.tab3.setLayout(layout)
+    
+        plot_widget = QtInteractor(self.tab3)
+        layout.addWidget(plot_widget)
+    
 
-        # Fetch satellite position and velocity data
-        latestPosition = data.getSatPos()
-        latestVelocity = data.getSatVel()
-        
-        # Create the plot
-        plotter = orbit.orbitPlotting(latestPosition, latestVelocity)
-        
-        # Reset the camera to fit the plot
-        plotter.renderer.reset_camera()
+        from orbit import orbitPlotting
+        # r = [7000, 0, 0]
+        # v = [0, 7.5, 1]
+        r = data.getSatPos()
+        v = data.getSatVel()
+        plotter = orbitPlotting(r, v)
+    
+        plot_widget.set_background(plotter.background_color)
+    
+        for actor in plotter.renderer._actors.values():
+            plot_widget.add_actor(actor)
+    
+        plot_widget.camera_position = plotter.camera_position
+        plot_widget.reset_camera()
+
 
     def resizeEvent(self, event):
 
@@ -263,7 +263,7 @@ class MyTableWidget(QWidget):
 
         x_siz2 = int(width * 0.4)
         y_siz2 = int(height * 0.4)
-        x_center2 = int(width * 0.25)
+        x_center2 = int(width * 0.75)
         y_center2 = int(height * 0.25)
         x_pos2 = x_center2 - (x_siz2 // 2)
         y_pos2 = y_center2 - (y_siz2 // 2)       
