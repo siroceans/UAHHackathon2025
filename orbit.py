@@ -5,7 +5,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import trimesh
 import pyvista as pv
 import imageio
-
+import SatPosVelDataRetrieve as data
 
 def mag(v):
     magnitude = np.sqrt(np.sum(v**2))
@@ -132,8 +132,8 @@ def orbitPlotting(r, v):
     z = np.transpose(coordinates[2,:])
     
     # Doing all of the plotting!
-    scale = 10
-    scale2 = 50     
+    scale = 5
+    scale2 = 15   
     earth = pv.read("objectFiles/earth.obj")
     earth_texture = pv.read_texture("objectFiles/earth.jpg")
     earth = earth.scale([scale, scale, scale])
@@ -148,34 +148,34 @@ def orbitPlotting(r, v):
     plotter.add_mesh(satellite , texture = satellite_texture)
     orbit = pv.lines_from_points(np.column_stack([x,y,z]))
     plotter.add_mesh(orbit, color = "white", line_width = 3)
-#    plotter.show()
+    plotter.show()
     return plotter
     
-def animationPoints(r,v, no):
-    mu = 3.986004418 * 10 ** 5
-    r = np.array(r)
-    v = np.array(v)
-    rmag = mag(r)
-    vmag = mag(v)
-    h = np.cross(r,v)
-    hmag = mag(h)
-    e = (1/mu) * ((vmag**2 - mu/rmag) * r - np.dot(r,v) * v)
-    emag = mag(e) 
-    a = hmag ** 2 / (mu * (1 - emag ** 2))
+# def animationPoints(r,v, no):
+#     mu = 3.986004418 * 10 ** 5
+#     r = np.array(r)
+#     v = np.array(v)
+#     rmag = mag(r)
+#     vmag = mag(v)
+#     h = np.cross(r,v)
+#     hmag = mag(h)
+#     e = (1/mu) * ((vmag**2 - mu/rmag) * r - np.dot(r,v) * v)
+#     emag = mag(e) 
+#     a = hmag ** 2 / (mu * (1 - emag ** 2))
 
-    period = 2 * np.pi * np.sqrt(a**3 / mu)
-    timesteps = np.linspace(0, period, no)
+#     period = 2 * np.pi * np.sqrt(a**3 / mu)
+#     timesteps = np.linspace(0, period, no)
     
-    xlist = []
-    ylist = []
-    zlist = []
-    for i in range(len(timesteps)):
-        ri , vi = futurePosition(r, v, timesteps[i])
-        xlist.append(ri[0])
-        ylist.append(ri[1]) 
-        zlist.append(ri[2])
+#     xlist = []
+#     ylist = []
+#     zlist = []
+#     for i in range(len(timesteps)):
+#         ri , vi = futurePosition(r, v, timesteps[i])
+#         xlist.append(ri[0])
+#         ylist.append(ri[1]) 
+#         zlist.append(ri[2])
 
-    return xlist, ylist, zlist
+#     return xlist, ylist, zlist
 
 # def plot_animation(xlist,ylist, zlist, r, v):
 # 
@@ -221,4 +221,4 @@ def animationPoints(r,v, no):
 # plot_animation(x,y,z,r,v)
 # 
 # #plot_animation(r_array, v_array)
-#     
+#orbitPlotting([8750, 5100, 0], [-3, 5.2, 5.9])     

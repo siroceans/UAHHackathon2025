@@ -9,6 +9,9 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 #from (jorges script) import (function)
 from plane import UAV_mapper
+from pyvistaqt import QtInteractor
+from orbit import orbitPlotting
+import SatPosVelDataRetrieve as data
 
 # Colors
 black = QColor(0, 0, 0)      # a dark greyish black
@@ -42,8 +45,8 @@ class MyTableWidget(QWidget):
         self.tab1.setObjectName("tab1")
         self.tab2 = QWidget()
         self.tab2.setObjectName("tab2")
-        self.tab3 = QWidget()
-        self.tab3.setObjectName("tab3")
+        self.init_tab3()
+        self.tabs.addTab(self.tab3, "Satellite Plots")
         self.tabs.addTab(self.tab1, "Home Page")
         self.tabs.addTab(self.tab2, "UAV Orientation")
         self.tabs.addTab(self.tab3, "Satellite Plots")
@@ -135,21 +138,31 @@ class MyTableWidget(QWidget):
         self.update_layout_tab2()
 
     def init_tab3(self):
+        self.tab3 = QWidget()
+        self.tab3.setObjectName("tab3")
+    
         layout = QVBoxLayout()
-
-        # Create a matplotlib figure
-        self.figure = Figure()
-        self.canvas = FigureCanvas(self.figure)
-
-        # Plot something
-        ax = self.figure.add_subplot(111)
-        ax.plot([0, 1, 2, 3], [10, 20, 15, 30])
-        ax.set_title("Sample Plot")
-
-        # Add canvas to layout
-        layout.addWidget(self.canvas)
-
         self.tab3.setLayout(layout)
+    
+        plot_widget = QtInteractor(self.tab3)
+        layout.addWidget(plot_widget)
+    
+
+        from orbit import orbitPlotting
+        # r = [7000, 0, 0]
+        # v = [0, 7.5, 1]
+        r = data.getSatPos()
+        v = data.getSatVel()
+        plotter = orbitPlotting(r, v)
+    
+        plot_widget.set_background(plotter.background_color)
+    
+        for actor in plotter.renderer._actors.values():
+            plot_widget.add_actor(actor)
+    
+        plot_widget.camera_position = plotter.camera_position
+        plot_widget.reset_camera()
+
 
     def resizeEvent(self, event):
 
