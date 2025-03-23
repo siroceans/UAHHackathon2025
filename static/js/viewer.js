@@ -1,10 +1,9 @@
-// viewer.js
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 // Create scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x111111);
+scene.background = new THREE.Color(0xffffff);
 
 // Create camera
 const camera = new THREE.PerspectiveCamera(
@@ -13,16 +12,22 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 );
-camera.position.z = 5;
+camera.position.set = (5, 2, 10);
 
 // Create renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Add light
-const light = new THREE.HemisphereLight(0xffffff, 0x444444);
-scene.add(light);
+// Add 
+const ambient = new THREE.AmbientLight(0xffffff, 5);
+scene.add(ambient);
+
+const directional = new THREE.DirectionalLight(0xffffff, 5);
+directional.position.set(5, 10, 5);
+scene.add(directional);
+
+let model = null;
 
 // Load model
 const loader = new GLTFLoader();
@@ -30,7 +35,9 @@ const modelPath = document.getElementById("model-path").getAttribute("data-path"
 
 loader.load(modelPath, (gltf) => {
     const model = gltf.scene;
+    model.scale.set(0.5, 0.5, 0.5);
     model.position.set(0, 0, 0);
+    model.rotation.y = Math.PI;
     scene.add(model);
 }, undefined, (error) => {
     console.error("Error loading model:", error);
