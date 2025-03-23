@@ -7,8 +7,12 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-#from (jorges script) import (function)
+# Mares' imports
 from plane import UAV_mapper
+from PyQt5.QtWidgets import QMainWindow, QFrame, QVBoxLayout, QWidget
+from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
+import orbit as orbit
+import SatPosVelDataRetrieve as data
 
 # Colors
 black = QColor(0, 0, 0)      # a dark greyish black
@@ -135,21 +139,30 @@ class MyTableWidget(QWidget):
         self.update_layout_tab2()
 
     def init_tab3(self):
-        layout = QVBoxLayout()
+   ## Orbital Dynamics Window!
+        ## Orbital Dynamics Window!
+        
+        # Create the frame (Main container for the plot)
+        self.frame = QFrame(self)  # Use this frame to hold the VTK render window
+        
+        # Create a layout for the frame
+        self.layout = QVBoxLayout(self.frame)  # Set layout for the frame
+        
+        # Create the VTK Widget (Interactor for PyVista)
+        self.vtk_widget = QVTKRenderWindowInteractor(self.frame)
+        
+        # Add the vtk_widget to the layout
+        self.layout.addWidget(self.vtk_widget)
 
-        # Create a matplotlib figure
-        self.figure = Figure()
-        self.canvas = FigureCanvas(self.figure)
-
-        # Plot something
-        ax = self.figure.add_subplot(111)
-        ax.plot([0, 1, 2, 3], [10, 20, 15, 30])
-        ax.set_title("Sample Plot")
-
-        # Add canvas to layout
-        layout.addWidget(self.canvas)
-
-        self.tab3.setLayout(layout)
+        # Fetch satellite position and velocity data
+        latestPosition = data.getSatPos()
+        latestVelocity = data.getSatVel()
+        
+        # Create the plot
+        plotter = orbit.orbitPlotting(latestPosition, latestVelocity)
+        
+        # Reset the camera to fit the plot
+        plotter.renderer.reset_camera()
 
     def resizeEvent(self, event):
 

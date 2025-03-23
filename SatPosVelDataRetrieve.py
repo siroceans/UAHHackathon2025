@@ -54,7 +54,7 @@ def getSatPos():
     current_pos = [float(last_data[1]), float(last_data[2]), float(last_data[3])]
 
     #print(current_orientation)
-    return current_pos, current_time
+    return current_pos#, current_time
     # ### Update Orientation Every 5 Minutes
     # while True:
     #     # Code to be executed every 5 minutes
@@ -109,7 +109,7 @@ def getSatVel():
     current_vel = [float(last_data[1]), float(last_data[2]), float(last_data[3])]
 
     #print(current_orientation)
-    return current_vel,current_time
+    return current_vel#,current_time
     # ### Update Orientation Every 5 Minutes
     # while True:
     #     # Code to be executed every 5 minutes

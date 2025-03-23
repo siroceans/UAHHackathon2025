@@ -221,4 +221,4 @@ def animationPoints(r,v, no):
 # plot_animation(x,y,z,r,v)
 # 
 # #plot_animation(r_array, v_array)
-#     
+#orbitPlotting([8750, 5100, 0], [-3, 5.2, 5.9])     
