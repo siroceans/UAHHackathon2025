@@ -4,6 +4,7 @@ import csv
 import pyvista as pv
 import imageio.v2 as imageio
 import time
+from scipy.spatial.transform import Rotation as R, Slerp
 
 
 def getYawPitchRoll():
@@ -115,15 +116,31 @@ def UAV_mapper(yaw_array, pitch_array, roll_array, file_name):
     print("GIF saved as Live_UAV_Rotation.gif!")
     return None
 
+def maresmooth(a1, a2):
+    steps = 100
+    t = np.linspace(0, 1, steps)
+    t2 = (1 - np.cos(t * np.pi)) / 2
+    smoothing = a1 + (a2 - a1) * t2
+    return smoothing
+
 data = ten_thousand()
 yaw_array = data[0]
-print(yaw_array)
-print(len(yaw_array))
 pitch_array = data[1]
-print(pitch_array)
 roll_array = data[2]
-print(roll_array)
+tol = 2
+for i in range(len(yaw_array)):
+    if i != 0: 
+        diffyaw = yaw_array[i] - yaw_array[i-1]
+        diffpitch = pitch_array[i] - pitch_array[i-1]
+        diffroll = roll_array[i] - pitch_array[i-1]
+        
+        if abs(diffyaw) > tol:
+            smoothing = maresmooth(yaw_array[i-1], yaw_array[i])
+            hold = np.ones(len(smoothing))
+            yaw_array = np.insert(yaw_array, i, smoothing)
+            pitch_array = np.insert(pitch_array, i, hold * pitch_array[i])
+            roll_array = np.insert(roll_array, i, hold * roll_array[i])
+
 
 UAV_mapper(yaw_array, pitch_array, roll_array, 'Untitled.stl')
-
 
